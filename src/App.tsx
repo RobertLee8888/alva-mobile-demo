@@ -5,6 +5,7 @@ import { AskAlvaOverlay, ChatPage, ChatSelectedPage } from "./pages/ChatPages";
 import { ExplorePage, PlaybooksPage, RecentChatsPage, SidebarMenuPage, SidebarPage } from "./pages/BrowsePages";
 import { InfoModal, PlaybookDetailPage } from "./pages/PlaybookDetailPage";
 import { LoginPage } from "./pages/LoginPage";
+import { SplashPage } from "./pages/SplashPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { createRouteState, getBrowserRouteState, motionFor, writeBrowserState } from "./navigation";
@@ -20,7 +21,7 @@ function createDrawerTransition(from: Screen, to: Screen, motion: Motion): Drawe
 }
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>("login");
+  const [screen, setScreen] = useState<Screen>("splash");
   const [history, setHistory] = useState<Screen[]>([]);
   const [overlay, setOverlay] = useState<Overlay>(null);
   const [detailTab, setDetailTab] = useState<DetailTab>("overview");
@@ -41,7 +42,7 @@ export default function App() {
         detailTab: "overview",
         history: [],
         overlay: null,
-        screen: "login",
+        screen: "splash",
         settingsTab: "account",
       }),
     );
@@ -205,6 +206,8 @@ export default function App() {
 
   const renderScreen = (target: Screen): ReactNode => {
     switch (target) {
+    case "splash":
+      return <SplashPage onDone={() => replace("login")} />;
     case "login":
       return <LoginPage onLogin={() => replace("chat")} />;
     case "chat":
