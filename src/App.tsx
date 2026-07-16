@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { getVisualViewportSize, MIN_MOBILE_STAGE_WIDTH } from "./assets";
+import { asset, getVisualViewportSize, MIN_MOBILE_STAGE_WIDTH } from "./assets";
 import { AskAlvaOverlay, ChatPage, ChatSelectedPage } from "./pages/ChatPages";
 import { ExplorePage, PlaybooksPage, RecentChatsPage, SidebarMenuPage, SidebarPage } from "./pages/BrowsePages";
 import { InfoModal, PlaybookDetailPage } from "./pages/PlaybookDetailPage";
@@ -251,51 +251,65 @@ export default function App() {
     }
   }
 
-  const stageScale = viewport.width < MIN_MOBILE_STAGE_WIDTH ? viewport.width / MIN_MOBILE_STAGE_WIDTH : 1;
+  // 与 styles.css 的 @media (min-width: 521px) 断点保持一致
+  const isDesktop = viewport.width >= 521;
+  // 机身外框尺寸 = 屏幕 393×852 + 两侧 19px 边框
+  const deviceZoom = isDesktop ? Math.min(1, (viewport.width - 48) / 431, (viewport.height - 48) / 890) : 1;
+  const stageScale = !isDesktop && viewport.width < MIN_MOBILE_STAGE_WIDTH ? viewport.width / MIN_MOBILE_STAGE_WIDTH : 1;
   const stageHeight = stageScale < 1 ? viewport.height / stageScale : viewport.height;
-  const mobileShellStyle = {
-    "--shell-dvh": `${stageHeight}px`,
-    height: `${stageHeight}px`,
-    minHeight: `${stageHeight}px`,
-    ...(stageScale < 1
+  const mobileShellStyle = (
+    isDesktop
       ? {
-          transform: `scale(${stageScale})`,
-          transformOrigin: "top left",
-          width: `${MIN_MOBILE_STAGE_WIDTH}px`,
+          "--shell-dvh": "852px",
+          height: "852px",
+          minHeight: "852px",
         }
-      : null),
-  } as CSSProperties;
+      : {
+          "--shell-dvh": `${stageHeight}px`,
+          height: `${stageHeight}px`,
+          minHeight: `${stageHeight}px`,
+          ...(stageScale < 1
+            ? {
+                transform: `scale(${stageScale})`,
+                transformOrigin: "top left",
+                width: `${MIN_MOBILE_STAGE_WIDTH}px`,
+              }
+            : null),
+        }
+  ) as CSSProperties;
   const isDrawerTransition = Boolean(drawerTransition);
   const drawerDirectionClass = drawerTransition ? `is-drawer-${drawerTransition.direction}` : "";
   const rendered = renderScreen(screen);
 
   return (
     <main className="demo-root">
-      <section className="desktop-gate" aria-label="Desktop unavailable">
-        <p>此 demo 仅在移动端窗口尺寸生效</p>
-      </section>
-
-      <section className={`mobile-shell ${isDrawerTransition ? "is-drawer-transition" : ""} ${drawerDirectionClass}`} aria-label="m.baby mobile demo" style={mobileShellStyle}>
-        {drawerTransition ? (
-          <div
-            className={`view-transition drawer-enter-layer drawer-enter-${drawerTransition.direction}`}
-            data-transition-layer="drawer-enter"
-            key={`drawer-${drawerTransition.to}`}
-          >
-            {renderScreen(drawerTransition.to)}
-          </div>
-        ) : null}
-        <div
-          aria-hidden={drawerTransition ? "true" : undefined}
-          className={`view-transition ${drawerTransition ? `drawer-exit-layer drawer-exit-${drawerTransition.direction}` : `enter-${motion}`}`}
-          data-transition-layer={drawerTransition ? "drawer-exit" : "current"}
-          key={screen}
-        >
-          {rendered}
+      <div className="device-frame" style={isDesktop ? ({ zoom: deviceZoom } as CSSProperties) : undefined}>
+        <div className="device-screen">
+          <section className={`mobile-shell ${isDrawerTransition ? "is-drawer-transition" : ""} ${drawerDirectionClass}`} aria-label="m.baby mobile demo" style={mobileShellStyle}>
+            {drawerTransition ? (
+              <div
+                className={`view-transition drawer-enter-layer drawer-enter-${drawerTransition.direction}`}
+                data-transition-layer="drawer-enter"
+                key={`drawer-${drawerTransition.to}`}
+              >
+                {renderScreen(drawerTransition.to)}
+              </div>
+            ) : null}
+            <div
+              aria-hidden={drawerTransition ? "true" : undefined}
+              className={`view-transition ${drawerTransition ? `drawer-exit-layer drawer-exit-${drawerTransition.direction}` : `enter-${motion}`}`}
+              data-transition-layer={drawerTransition ? "drawer-exit" : "current"}
+              key={screen}
+            >
+              {rendered}
+            </div>
+            {overlay === "askAlva" ? <AskAlvaOverlay onClose={closeOverlay} /> : null}
+            {overlay === "infoModal" ? <InfoModal onClose={closeOverlay} /> : null}
+          </section>
+          <img alt="" aria-hidden="true" className="device-statusbar" src={asset("assets/figma/ios-status-bar.svg")} />
+          <img alt="" aria-hidden="true" className="device-indicator" src={asset("assets/figma/ios-home-indicator.svg")} />
         </div>
-        {overlay === "askAlva" ? <AskAlvaOverlay onClose={closeOverlay} /> : null}
-        {overlay === "infoModal" ? <InfoModal onClose={closeOverlay} /> : null}
-      </section>
+      </div>
     </main>
   );
 }

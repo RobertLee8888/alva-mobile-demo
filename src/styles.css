@@ -93,7 +93,15 @@ button {
   background: #ffffff;
 }
 
-.desktop-gate {
+/* ---------- device mockup (PC) ---------- */
+/* 移动端直接全屏运行；PC 端包一层 iPhone mockup，模拟真实应用 */
+.device-frame,
+.device-screen {
+  display: contents;
+}
+
+.device-statusbar,
+.device-indicator {
   display: none;
 }
 
@@ -3609,28 +3617,94 @@ button:focus-visible {
 }
 
 @media (min-width: 521px) {
-  .mobile-shell {
-    display: none;
-  }
-
-  .desktop-gate {
+  .demo-root {
     display: flex;
-    width: 100vw;
-    height: 100dvh;
-    min-height: 100vh;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    background: #ffffff;
+    background: #eceef0;
   }
 
-  .desktop-gate p {
-    max-width: 520px;
-    margin: 0;
-    color: var(--text);
-    font-size: 24px;
-    line-height: 34px;
-    letter-spacing: 0;
-    text-align: center;
+  .device-frame {
+    position: relative;
+    display: block;
+    flex: 0 0 auto;
+    padding: 19px;
+    border-radius: 74px;
+    background: linear-gradient(160deg, #3a3d43 0%, #17181b 18%, #101114 82%, #33363c 100%);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.14),
+      inset 0 0 5px 4px rgba(0, 0, 0, 0.6),
+      0 34px 70px rgba(15, 18, 22, 0.4),
+      0 10px 24px rgba(15, 18, 22, 0.28);
+  }
+
+  .device-frame::before {
+    content: "";
+    position: absolute;
+    left: -2.5px;
+    top: 226px;
+    width: 4px;
+    height: 60px;
+    border-radius: 2px 0 0 2px;
+    background: #2b2d32;
+    box-shadow:
+      0 76px 0 0 #2b2d32,
+      0 -66px 0 0 #2b2d32;
+  }
+
+  .device-frame::after {
+    content: "";
+    position: absolute;
+    right: -2.5px;
+    top: 288px;
+    width: 4px;
+    height: 96px;
+    border-radius: 0 2px 2px 0;
+    background: #2b2d32;
+  }
+
+  .device-screen {
+    position: relative;
+    display: block;
+    width: 393px;
+    height: 852px;
+    overflow: hidden;
+    border-radius: 55px;
+    background: #000000;
+  }
+
+  .device-statusbar {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 393px;
+    height: 59px;
+    z-index: 80;
+    pointer-events: none;
+  }
+
+  .device-indicator {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 393px;
+    height: 34px;
+    z-index: 80;
+    pointer-events: none;
+  }
+
+  .mobile-shell {
+    width: 393px;
+    height: 852px;
+    padding-top: 59px;
+    --safe-bottom: 34px;
+  }
+
+  /* Splash 全出血：设计稿里 splash 图铺满整屏，状态栏压在图上 */
+  .splash-page {
+    margin-top: -59px;
+    height: calc(100% + 59px);
   }
 }
