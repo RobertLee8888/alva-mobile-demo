@@ -44,6 +44,30 @@
   --radius-l: 8px;
   --radius-xl: 12px;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* ---- Alva Motion System v1 · docs/motion-spec.md ----
+     时长按角色取档（对齐 M3 duration 档位），缓动分进场/离场/纵深，
+     新增动效必须引用这些 token，禁止字面量。 */
+  --motion-dur-feedback: 80ms;
+  --motion-dur-micro: 140ms;
+  --motion-dur-content: 180ms;
+  --motion-dur-back: 240ms;
+  --motion-dur-push: 260ms;
+  --motion-dur-sheet: 280ms;
+  --motion-dur-hero: 320ms;
+  --motion-dur-drawer: 380ms;
+  --motion-dur-loop: 900ms;
+  --motion-ease-out: ease-out;
+  --motion-ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-soft: cubic-bezier(0.18, 0.86, 0.18, 1);
+  --motion-ease-exit: cubic-bezier(0.5, 0, 0.78, 0.24);
+  --motion-ease-hero: cubic-bezier(0.2, 0.9, 0.2, 1);
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-shift-xs: 8px;
+  --motion-shift-s: 12px;
+  --motion-shift-m: 18px;
+  --motion-shift-l: 28px;
+  --motion-shift-xl: 34px;
+  --motion-stagger-step: 24ms;
   color: var(--text);
   background: #ffffff;
   font-family:
@@ -131,7 +155,7 @@ button {
 
 .drawer-enter-layer {
   z-index: 1;
-  animation: drawer-depth-enter 320ms cubic-bezier(0.14, 0.82, 0.2, 1) both;
+  animation: drawer-depth-enter var(--motion-dur-hero) var(--motion-ease-soft) both;
   pointer-events: none;
   transform-origin: center center;
 }
@@ -147,7 +171,7 @@ button {
   background: #ffffff;
   box-shadow: -20px 0 44px rgba(0, 0, 0, 0.12);
   pointer-events: none;
-  animation: drawer-current-exit 320ms cubic-bezier(0.5, 0, 0.78, 0.24) both;
+  animation: drawer-current-exit var(--motion-dur-hero) var(--motion-ease-exit) both;
   transform-origin: right center;
 }
 
@@ -158,7 +182,7 @@ button {
   background: rgba(0, 0, 0, 0.18);
   content: "";
   pointer-events: none;
-  animation: drawer-backdrop-fade 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: drawer-backdrop-fade var(--motion-dur-sheet) var(--motion-ease-enter) both;
 }
 
 .page {
@@ -824,12 +848,12 @@ button:focus-visible {
 }
 
 .chat-content-stage.is-ready {
-  animation: content-ready-in 180ms ease-out;
+  animation: content-ready-in var(--motion-dur-content) var(--motion-ease-out);
 }
 
 .chat-loading {
   width: 100%;
-  animation: loading-content-in 180ms ease-out;
+  animation: loading-content-in var(--motion-dur-content) var(--motion-ease-out);
 }
 
 .loading-agent-row {
@@ -859,15 +883,15 @@ button:focus-visible {
   height: 4px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.3);
-  animation: typing-dot 900ms ease-in-out infinite;
+  animation: typing-dot var(--motion-dur-loop) ease-in-out infinite;
 }
 
 .typing-dots i:nth-child(2) {
-  animation-delay: 120ms;
+  animation-delay: calc(var(--motion-stagger-step) * 5);
 }
 
 .typing-dots i:nth-child(3) {
-  animation-delay: 240ms;
+  animation-delay: calc(var(--motion-stagger-step) * 10);
 }
 
 .initial-thinking {
@@ -1114,7 +1138,7 @@ button:focus-visible {
 }
 
 .live-chat-turn {
-  animation: message-in 180ms ease-out both;
+  animation: message-in var(--motion-dur-content) var(--motion-ease-out) both;
 }
 
 .live-chat-turn + .live-chat-turn {
@@ -3104,7 +3128,7 @@ button:focus-visible {
   border-radius: var(--radius-l);
   background: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-  animation: action-bar-in 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: action-bar-in var(--motion-dur-back) var(--motion-ease-enter);
 }
 
 .detail-action-item {
@@ -3164,7 +3188,7 @@ button:focus-visible {
   inset: 0;
   border: 0;
   background: #666666;
-  animation: backdrop-in 180ms ease-out;
+  animation: backdrop-in var(--motion-dur-content) var(--motion-ease-out);
 }
 
 .ask-overlay-root .overlay-backdrop {
@@ -3182,7 +3206,7 @@ button:focus-visible {
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   background: #ffffff;
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.16);
-  animation: sheet-in 280ms cubic-bezier(0.18, 0.86, 0.22, 1);
+  animation: sheet-in var(--motion-dur-sheet) var(--motion-ease-soft);
 }
 
 .ask-sheet .topbar {
@@ -3235,7 +3259,7 @@ button:focus-visible {
   background: #ffffff;
   padding: 0 20px 20px;
   box-shadow: none;
-  animation: modal-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: modal-in var(--motion-dur-back) var(--motion-ease-enter);
 }
 
 .info-modal header {
@@ -3315,23 +3339,23 @@ button:focus-visible {
 }
 
 .enter-auth {
-  animation: enter-auth 320ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  animation: enter-auth var(--motion-dur-hero) var(--motion-ease-hero);
 }
 
 .enter-push {
-  animation: enter-push 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: enter-push var(--motion-dur-push) var(--motion-ease-enter);
 }
 
 .enter-back {
-  animation: enter-back 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: enter-back var(--motion-dur-back) var(--motion-ease-enter);
 }
 
 .enter-drawer {
-  animation: enter-drawer 380ms cubic-bezier(0.18, 0.86, 0.16, 1);
+  animation: enter-drawer var(--motion-dur-drawer) var(--motion-ease-soft);
 }
 
 .enter-soft {
-  animation: enter-soft 180ms ease-out;
+  animation: enter-soft var(--motion-dur-content) var(--motion-ease-out);
 }
 
 .enter-none {
@@ -3339,7 +3363,57 @@ button:focus-visible {
 }
 
 .tab-content-motion {
-  animation: tab-content-in 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: tab-content-in var(--motion-dur-content) var(--motion-ease-enter);
+}
+
+/* ---- Motion utilities（新增内容默认取用，见 docs/motion-spec.md §3） ---- */
+.m-enter-up {
+  animation: m-enter-up var(--motion-dur-content) var(--motion-ease-enter) both;
+}
+
+.m-enter-fade {
+  animation: backdrop-in var(--motion-dur-content) var(--motion-ease-out) both;
+}
+
+.m-stagger > * {
+  animation: m-enter-up var(--motion-dur-content) var(--motion-ease-enter) both;
+}
+
+.m-stagger > *:nth-child(2) { animation-delay: calc(var(--motion-stagger-step) * 1); }
+.m-stagger > *:nth-child(3) { animation-delay: calc(var(--motion-stagger-step) * 2); }
+.m-stagger > *:nth-child(4) { animation-delay: calc(var(--motion-stagger-step) * 3); }
+.m-stagger > *:nth-child(5) { animation-delay: calc(var(--motion-stagger-step) * 4); }
+.m-stagger > *:nth-child(6) { animation-delay: calc(var(--motion-stagger-step) * 5); }
+
+@keyframes m-enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-shift-xs));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 图表默认绘入：数据生长，不虚构变化（motion-spec §1.6） */
+.mini-chart span {
+  transform-origin: bottom;
+  animation: m-chart-grow var(--motion-dur-content) var(--motion-ease-enter) both;
+}
+
+.mini-chart span:nth-child(3n) { animation-delay: calc(var(--motion-stagger-step) * 2); }
+.mini-chart span:nth-child(3n + 1) { animation-delay: calc(var(--motion-stagger-step) * 4); }
+
+@keyframes m-chart-grow {
+  from {
+    opacity: 0.4;
+    transform: scaleY(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 
 @keyframes enter-auth {
@@ -3541,37 +3615,44 @@ button:focus-visible {
   }
 }
 
-@media (hover: none) {
-  .icon-button:active,
-  .avatar-button:active,
-  .mini-icon-button:active {
-    background: rgba(0, 0, 0, 0.05);
-    transform: scale(0.96);
-  }
+/* 按压反馈是全局默认（motion-spec §4）：触控与鼠标一致，新组件免手写 */
+.icon-button,
+.avatar-button,
+.mini-icon-button {
+  transition: transform var(--motion-dur-feedback) var(--motion-ease-standard), background var(--motion-dur-feedback) var(--motion-ease-standard);
+}
 
-  .nav-row:active,
-  .playbook-row:active,
-  .chat-row:active,
-  .menu-item:active,
-  .explore-card:active,
-  .account-user:active,
-  .profile-feature-card:active,
-  .upgrade-card:active {
-    background: rgba(73, 163, 166, 0.08);
-  }
+.icon-button:active,
+.avatar-button:active,
+.mini-icon-button:active {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(0.96);
+}
 
-  .digest-card header button:active,
-  .connection-row button:active,
-  .two-buttons button:active,
-  .plan-card button:active,
-  .section-header button:active,
-  .profile-actions button:active,
-  .email-button:active,
-  .social-grid button:active,
-  .primary-outline:active,
-  .new-chat:active {
-    transform: scale(0.985);
-  }
+.nav-row:active,
+.playbook-row:active,
+.chat-row:active,
+.menu-item:active,
+.explore-card:active,
+.account-user:active,
+.profile-feature-card:active,
+.upgrade-card:active {
+  background: rgba(73, 163, 166, 0.08);
+}
+
+.digest-card header button:active,
+.connection-row button:active,
+.two-buttons button:active,
+.plan-card button:active,
+.section-header button:active,
+.profile-actions button:active,
+.email-button:active,
+.social-grid button:active,
+.google-login-button:active,
+.promo-card:active,
+.primary-outline:active,
+.new-chat:active {
+  transform: scale(0.985);
 }
 
 @media (max-width: 374px) {
@@ -3611,7 +3692,14 @@ button:focus-visible {
   .detail-actions,
   .chat-content-stage.is-ready,
   .chat-loading,
-  .typing-dots i {
+  .typing-dots i,
+  .live-chat-turn,
+  .m-enter-up,
+  .m-enter-fade,
+  .m-stagger > *,
+  .mini-chart span,
+  .drawer-enter-layer,
+  .drawer-exit-layer {
     animation: none;
   }
 }

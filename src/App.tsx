@@ -8,10 +8,10 @@ import { LoginPage } from "./pages/LoginPage";
 import { SplashPage } from "./pages/SplashPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { SettingsPage } from "./pages/SettingsPage";
+import { DRAWER_TRANSITION_MS } from "./motion";
 import { createRouteState, getBrowserRouteState, motionFor, writeBrowserState } from "./navigation";
 import type { BrowserRouteState, DetailTab, Motion, Overlay, Screen, SettingsTab } from "./types";
 
-const DRAWER_TRANSITION_MS = 320;
 type DrawerTransition = { direction: "open" | "close"; from: Screen; to: Screen };
 
 function createDrawerTransition(from: Screen, to: Screen, motion: Motion): DrawerTransition | null {

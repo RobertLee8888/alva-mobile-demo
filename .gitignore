@@ -2,4 +2,9 @@ node_modules
 dist
 .DS_Store
 .qa
-qa
+qa/*
+!qa/flows.json
+!qa/flow-score.mjs
+!qa/reports
+qa/reports/*
+!qa/reports/*.md

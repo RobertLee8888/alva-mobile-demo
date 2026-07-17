@@ -1,0 +1,97 @@
+{
+  "$doc": "体验评分的流程定义。新增 screen/flow 必须先在这里登记基线（docs/experience-scorecard.md §5）。baselineTaps 依据 NN/g interaction cost：完成任务所需的最少合理点按数。prelude 是到达流程起点的前置操作，不计入本流程的点按数。每个流程在全新会话中执行。",
+  "flows": [
+    {
+      "name": "first-run",
+      "description": "冷启动：Splash → Login → Chat 主页",
+      "baselineTaps": 1,
+      "steps": [
+        { "expect": ".splash-page" },
+        { "wait": 2600 },
+        { "expect": ".login-page" },
+        { "click": ".google-login-button" },
+        { "expect": ".chat-page" }
+      ]
+    },
+    {
+      "name": "explore-to-detail",
+      "description": "从主页进 Explore 并打开一个 playbook",
+      "baselineTaps": 3,
+      "prelude": [
+        { "wait": 2600 },
+        { "click": ".google-login-button" },
+        { "expect": ".chat-page" }
+      ],
+      "steps": [
+        { "click": ".chat-menu-button" },
+        { "waitFor": ".sidebar-page", "timeout": 900 },
+        { "clickText": [".nav-row", "Explore"] },
+        { "waitFor": ".explore-page", "timeout": 900 },
+        { "click": ".explore-card" },
+        { "expect": ".detail-page" }
+      ]
+    },
+    {
+      "name": "detail-tabs",
+      "description": "详情页四个 tab 走查",
+      "baselineTaps": 3,
+      "prelude": [
+        { "wait": 2600 },
+        { "click": ".google-login-button" },
+        { "click": ".chat-menu-button" },
+        { "waitFor": ".sidebar-page", "timeout": 900 },
+        { "clickText": [".nav-row", "Explore"] },
+        { "waitFor": ".explore-page", "timeout": 900 },
+        { "click": ".explore-card" },
+        { "expect": ".detail-page" }
+      ],
+      "steps": [
+        { "clickText": [".tab-item", "Analytics"] },
+        { "expect": ".detail-page" },
+        { "clickText": [".tab-item", "Strategy"] },
+        { "expect": ".detail-page" },
+        { "clickText": [".tab-item", "Feed"] },
+        { "expect": ".detail-page" }
+      ]
+    },
+    {
+      "name": "ask-alva",
+      "description": "详情页唤起 Ask Alva 并关闭",
+      "baselineTaps": 2,
+      "prelude": [
+        { "wait": 2600 },
+        { "click": ".google-login-button" },
+        { "click": ".chat-menu-button" },
+        { "waitFor": ".sidebar-page", "timeout": 900 },
+        { "clickText": [".nav-row", "Explore"] },
+        { "waitFor": ".explore-page", "timeout": 900 },
+        { "click": ".explore-card" },
+        { "expect": ".detail-page" }
+      ],
+      "steps": [
+        { "click": ".detail-action-item" },
+        { "expect": ".ask-sheet" },
+        { "click": ".overlay-backdrop" },
+        { "absent": ".ask-sheet" }
+      ]
+    },
+    {
+      "name": "profile",
+      "description": "侧边栏 → 账户菜单 → 个人主页",
+      "baselineTaps": 3,
+      "prelude": [
+        { "wait": 2600 },
+        { "click": ".google-login-button" },
+        { "expect": ".chat-page" }
+      ],
+      "steps": [
+        { "click": ".chat-menu-button" },
+        { "waitFor": ".sidebar-page", "timeout": 900 },
+        { "click": ".avatar-button" },
+        { "waitFor": ".account-menu-page", "timeout": 900 },
+        { "click": ".account-user" },
+        { "expect": ".profile-page" }
+      ]
+    }
+  ]
+}
