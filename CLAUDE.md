@@ -1,6 +1,8 @@
 # alva-mobile-demo — 工作约定（每次会话先读）
 
-1. **动效**：一律使用 Alva Motion System token（`docs/motion-spec.md`）。
+1. **动效**：一律使用 Alva Motion System token。**正本已上收**到
+   `~/Documents/alva-design/motion/tokens.md`（判断层 `rules/M01–M09`）；
+   `docs/motion-spec.md` 保留本仓库的类名模式库与默认行为。
    新增动画不允许字面量时长/曲线；新 `@keyframes` 只动 transform/opacity，
    并在 `prefers-reduced-motion` 块登记。新 screen 的转场只在
    `src/navigation.ts # motionFor` 归类，不自带转场。

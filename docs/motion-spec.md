@@ -1,5 +1,17 @@
 # Alva Mobile Motion System v1
 
+> **2026-08-20：token 表已上收为产品级规范**，正本在
+> `~/Documents/alva-design/motion/tokens.md`，判断层在同目录
+> `rules/M01–M09`。本文件保留**本仓库的实现细节**——§3 的类名模式库、
+> §4 的 `App.tsx` / `navigation.ts` 默认行为、§5 的扫描落点。
+> **§2 的 token 值不再在此处独立演进**：要加档位或改值，先改 alva-design
+> 的 tokens.md，再改 `src/styles.css` / `src/motion.ts`。两边不一致时，
+> 以 alva-design 为准，本仓库为待修。
+>
+> 上收时发现并纠正了 alva-design 侧三条与本系统冲突的旧规则（进出场同曲线
+> 之禁、100ms 反馈下限、300ms 硬上限），详见各 rule 的
+> "Corrected 2026-08-20"。
+
 > 适用范围：alva-mobile-demo（Alva 移动端 demo）全部页面与后续新增内容。
 > 本规范不是发明，而是裁剪：token 架构取自 Material Design 3 Motion
 > (m3.material.io/styles/motion)，手势与空间连续性原则取自 Apple HIG
