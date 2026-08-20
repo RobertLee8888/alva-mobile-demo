@@ -2,7 +2,7 @@
 
 Audit date: 2026-06-30
 Prototype: `http://127.0.0.1:5173/`
-Repository: `m.baby`
+Repository: `alva-mobile-demo`
 Result: passed for mobile demo handoff
 
 ## Audit Scope

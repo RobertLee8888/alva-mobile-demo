@@ -1,4 +1,4 @@
-# m.baby — 工作约定（每次会话先读）
+# alva-mobile-demo — 工作约定（每次会话先读）
 
 1. **动效**：一律使用 Alva Motion System token（`docs/motion-spec.md`）。
    新增动画不允许字面量时长/曲线；新 `@keyframes` 只动 transform/opacity，

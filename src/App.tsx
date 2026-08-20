@@ -285,7 +285,7 @@ export default function App() {
     <main className="demo-root">
       <div className="device-frame" style={isDesktop ? ({ zoom: deviceZoom } as CSSProperties) : undefined}>
         <div className="device-screen">
-          <section className={`mobile-shell ${isDrawerTransition ? "is-drawer-transition" : ""} ${drawerDirectionClass}`} aria-label="m.baby mobile demo" style={mobileShellStyle}>
+          <section className={`mobile-shell ${isDrawerTransition ? "is-drawer-transition" : ""} ${drawerDirectionClass}`} aria-label="Alva mobile demo" style={mobileShellStyle}>
             {drawerTransition ? (
               <div
                 className={`view-transition drawer-enter-layer drawer-enter-${drawerTransition.direction}`}

@@ -1,6 +1,6 @@
 # Alva Mobile Motion System v1
 
-> 适用范围：m.baby（Alva 移动端 demo）全部页面与后续新增内容。
+> 适用范围：alva-mobile-demo（Alva 移动端 demo）全部页面与后续新增内容。
 > 本规范不是发明，而是裁剪：token 架构取自 Material Design 3 Motion
 > (m3.material.io/styles/motion)，手势与空间连续性原则取自 Apple HIG
 > (developer.apple.com/design/human-interface-guidelines/motion)，
